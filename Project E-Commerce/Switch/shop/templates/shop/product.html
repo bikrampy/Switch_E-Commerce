@@ -1,0 +1,159 @@
+{% extends "shop/base.html" %}
+
+{% load static %}
+
+{% block title %}
+Contact Us
+{% endblock %}
+
+{% block stylesheets %}
+{{ block.super }}
+<!-- Libraries Stylesheet -->
+<link href="{% static 'shop/lib/animate/animate.min.css' %}" rel="stylesheet" />
+<link
+  href="{% static 'shop/lib/owlcarousel/assets/owl.carousel.min.css' %}"
+  rel="stylesheet"
+/>
+<!-- Customized Bootstrap Stylesheet -->
+<link href="{% static 'shop/css/style.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="{% url 'shopIndex' %}">Home</a>
+                <a class="breadcrumb-item text-dark" href="{% url 'productPage' %}">Shop</a>
+                <span class="breadcrumb-item active">Shop List</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+
+<!-- Shop Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <!-- Shop Sidebar Start -->
+        <div class="col-lg-3 col-md-4">
+            <!-- Filter Start -->
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by Category</span></h5>
+            <div class="bg-light p-4 mb-30">
+                <form>
+                    {% for cat in categories %}
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="radio" class="custom-control-input" name="category" value="{{ cat.category_name }}" {% if current_category == cat.category_name %}checked{% endif %} id="cat-{{ forloop.counter }}">
+                        <label class="custom-control-label" for="cat-{{ forloop.counter }}">{{ cat.category_name }}</label>
+                        <span class="badge border font-weight-normal">1000</span>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary btn-block mt-3">Apply</button>
+                </form>
+            </div>
+            <!-- Filter End -->
+        </div>
+        <!-- Shop Sidebar End -->
+
+        <!-- Shop Product Start -->
+        <div class="col-lg-9 col-md-8">
+            <div class="row pb-3">
+                <div class="col-12 pb-1">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
+                            <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
+                        </div>
+                        <div class="ml-2">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Latest</a>
+                                    <a class="dropdown-item" href="#">Popularity</a>
+                                    <a class="dropdown-item" href="#">Best Rating</a>
+                                </div>
+                            </div>
+                            <div class="btn-group ml-2">
+                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">10</a>
+                                    <a class="dropdown-item" href="#">20</a>
+                                    <a class="dropdown-item" href="#">30</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% for product in products %}
+                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ product.image.url }}" alt="">
+                            <div class="product-action">
+                                <a id="pr{{ product.prod_id }}" class="cart btn btn-outline-dark btn-square"><i class="fa fa-shopping-cart"></i></a>
+                                <a id="qv{{ product.prod_id }}" class="btn btn-outline-dark btn-square" href="{% url 'productDetailPage' product.prod_id %}"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="{% url 'productDetailPage' product.prod_id %}">{{ product.prod_name }}</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <h5>₹{{ product.price }}</h5><h6 class="text-muted ml-2"><del>₹{{ product.price }}</del></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col-12">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                        {% if products.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Previous</span>
+                            </li>
+                        {% endif %}
+
+                        {% for num in products.paginator.page_range %}
+                            {% if products.number == num %}
+                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if products.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Next</span>
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Shop Product End -->
+    </div>
+</div>
+<!-- Shop End -->
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'shop/lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'shop/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+<!-- Template Javascript -->
+<script src="{% static 'shop/mail/jqBootstrapValidation.min.js' %}"></script>
+<script src="{% static 'shop/mail/contact.js' %}"></script>
+<script src="{% static 'shop/js/main.js' %}"></script>
+{% endblock %}

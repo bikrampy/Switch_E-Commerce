@@ -1,0 +1,31 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+{% block title %}
+About Us
+{% endblock %}
+
+{% block stylesheets %}
+{{ block.super }}
+<!-- Libraries Stylesheet -->
+<link href="{% static 'shop/lib/animate/animate.min.css' %}" rel="stylesheet" />
+<link
+  href="{% static 'shop/lib/owlcarousel/assets/owl.carousel.min.css' %}"
+  rel="stylesheet"
+/>
+<!-- Customized Bootstrap Stylesheet -->
+<link href="{% static 'shop/css/style.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'shop/lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'shop/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+<!-- Template Javascript -->
+<script src="{% static 'shop/js/main.js' %}"></script>
+{% endblock %}

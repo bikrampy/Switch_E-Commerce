@@ -1,0 +1,79 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+{% block title %}
+Switch - Online Shopping Website
+{% endblock %}
+
+{% block stylesheets %}
+{{ block.super }}
+<!-- Libraries Stylesheet -->
+<link href="{% static 'shop/lib/animate/animate.min.css' %}" rel="stylesheet" />
+<link
+  href="{% static 'shop/lib/owlcarousel/assets/owl.carousel.min.css' %}"
+  rel="stylesheet"
+/>
+<!-- Customized Bootstrap Stylesheet -->
+<link href="{% static 'shop/css/style.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+{{block.super}}
+<!-- Categories Start -->
+    <div class="container-fluid pt-5">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
+        <div class="row px-xl-5 pb-3">
+            {% for category in categories %}
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <a class="text-decoration-none" href="{% url 'productPage' %}?category={{ category.category_name }}">
+                    <div class="cat-item d-flex align-items-center mb-4">
+                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                            <img class="img-fluid" src="{{ category.category_image.url }}" alt="{{ category.category_name }}">
+                        </div>
+                        <div class="flex-fill pl-3">
+                            <h6>{{ category.category_name }}</h6>
+                            <small class="text-body">{{ category.products.count }} Products</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    <!-- Categories End -->
+
+    <!-- Products Start -->
+    <div class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
+        <div class="row px-xl-5">
+            {% for product in products %}
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <div class="product-item bg-light mb-4">
+                <div class="product-img position-relative overflow-hidden">
+                    <img class="img-fluid w-100" src="{{ product.image.url }}" alt="{{ product.prod_name }}">
+                    <div class="product-action">
+                    <a id="pr{{ product.prod_id }}" class="cart btn btn-outline-dark btn-square" ><i class="fa fa-shopping-cart"></i></a>
+                    <a id="qv{{ product.prod_id }}" class="btn btn-outline-dark btn-square" href="{% url 'productDetailPage' product.prod_id %}"><i class="fa fa-search"></i></a>
+                    </div>
+                </div>
+                <div class="text-center py-4">
+                    <a class="item-name h6 text-decoration-none text-truncate" href="{% url 'productDetailPage' product.prod_id %}">{{ product.prod_name }}</a>
+                    <div class="d-flex align-items-center justify-content-center mt-2">
+                    <h5 class='item-price'>₹{{ product.price }}</h5>
+                    </div>
+                </div>
+                </div>
+            </div>
+            {% endfor %} 
+        </div>
+    </div>
+    <!-- Products End -->
+{% endblock  %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'shop/lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'shop/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+<!-- Template Javascript -->
+<script src="{% static 'shop/js/main.js' %}"></script>
+{% endblock %}
